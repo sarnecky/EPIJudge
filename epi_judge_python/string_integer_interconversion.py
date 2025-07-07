@@ -7,27 +7,24 @@ import string
 def int_to_string(x: int) -> str:
     is_negative = False
     if x < 0:
-        x, is_negative = -x, True
-    
-    s = []
+        is_negative, x = True, -x
+    result = []
     while True:
-        character = chr(ord('0') + x % 10)
-        s.append(character)
+        character = x % 10
+        result.append(chr(ord('0') +character))
         x //= 10
-        if x == 0:
+        if x  == 0:
             break
-    
-    return ('-' if is_negative else '') + ''.join(reversed(s));
+    response = ('-' if is_negative else '') + ''.join(reversed(result))
+    return response
 
 
 def string_to_int(input_string: str) -> int:
-    sign = -1 if input_string[0] == '-' else 1
-    
-    if input_string[0] in ('+', '-'):
-        input_string = input_string[1:]
-
-    return sign * functools.reduce(
-        lambda running_sum, character: running_sum * 10 + string.digits.index(character), input_string, 0)
+    sign =  -1 if input_string[0] == '-' else 1
+    result = 0
+    for i in input_string[1:] if input_string[0] in '-+' else input_string:
+        result = result*10 + string.digits.index(i)
+    return result * sign
 
 
 def wrapper(x, s):
