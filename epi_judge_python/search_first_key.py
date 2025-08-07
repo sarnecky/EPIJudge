@@ -4,16 +4,16 @@ from test_framework import generic_test
 
 # O(log n) time, O(1) space
 def search_first_of_k(A: List[int], k: int) -> int:
-    left, right, result = 0, len(A) - 1, -1
+    result, left, right = -1, 0, len(A) - 1
     while left <= right:
-        mid = (left + right) // 2
-        if A[mid] > k:
-            right = mid - 1
-        elif A[mid] == k:
-            result = mid
-            right = mid - 1
-        else:
-            left = mid + 1
+        middle = (right + left)//2
+        if A[middle] == k:
+            result = middle
+            right = middle - 1
+        elif A[middle] < k:
+            left = middle + 1
+        else :
+            right = middle - 1
     return result
 
 
