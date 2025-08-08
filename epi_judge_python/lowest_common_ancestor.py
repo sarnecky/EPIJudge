@@ -1,5 +1,8 @@
+import collections
 import functools
+from turtle import right
 from typing import Optional
+from xxlimited import Null
 
 from binary_tree_node import BinaryTreeNode
 from test_framework import generic_test
@@ -10,8 +13,23 @@ from test_framework.test_utils import enable_executor_hook
 
 def lca(tree: BinaryTreeNode, node0: BinaryTreeNode,
         node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
-    # TODO - you fill in here.
-    return None
+    Status = collections.namedtuple('Status', ('number_of_target_nodes', 'lca'))
+    
+    def find_lca(tree, node0, node1):
+        if tree is None:
+            return Status(0, None)
+
+        left_status = find_lca(tree.left, node0, node1)
+        if left_status.number_of_target_nodes == 2:
+            return left_status
+        
+        right_status = find_lca(tree.right, node0, node1)
+        if right_status.number_of_target_nodes == 2:
+            return right_status
+        
+        number_of_nodes = left_status.number_of_target_nodes + right_status.number_of_target_nodes + (node0, node1).count(tree)
+        return Status(number_of_nodes, tree if number_of_nodes == 2 else None)
+    return find_lca(tree, node0, node1).lca
 
 
 @enable_executor_hook
