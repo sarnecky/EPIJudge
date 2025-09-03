@@ -1,10 +1,11 @@
 from typing import List
-
+from two_sum import has_two_sum
 from test_framework import generic_test
 
 
 def has_three_sum(A: List[int], t: int) -> bool:
-    # TODO - you fill in here.
+    A.sort()
+    return any(has_two_sum(A, t - a) for a in A)
     return True
 
 
