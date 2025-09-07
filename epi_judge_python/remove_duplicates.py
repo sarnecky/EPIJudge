@@ -16,8 +16,13 @@ class Name:
 
 
 def eliminate_duplicate(A: List[Name]) -> None:
-    # TODO - you fill in here.
-    return
+    A.sort()  # Makes identical elements become neighbors.
+    write_idx = 1
+    for cand in A[1:]:
+        if cand != A[write_idx - 1]:
+            A[write_idx] = cand
+            write_idx += 1
+    del A[write_idx:]
 
 
 @enable_executor_hook
