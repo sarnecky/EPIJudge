@@ -49,13 +49,13 @@ def find_smallest_subarray_covering_set(paragraph: List[str],
             node.next = node.prev = None
             self._size -=1
     
-    loc = LinkedList()
-    d = { s : None for s in keywords }
+    loc = LinkedList() # keep track last occurence of each keyword
+    d = { s : None for s in keywords } # map keyword into node
     result = Subarray(-1, -1)
     for idx, s in enumerate(paragraph):
         if s in d: # if s exists in keywords
             it = d[s]
-            if it is not None:
+            if it is not None: # this if is to just avoid doubling in loc
                 loc.remove(it)
 
             loc.insert_after(idx)
