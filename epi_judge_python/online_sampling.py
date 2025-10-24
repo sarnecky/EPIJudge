@@ -1,4 +1,6 @@
 import functools
+import itertools
+import random
 from typing import Iterator, List
 
 from test_framework import generic_test
@@ -10,8 +12,14 @@ from test_framework.test_utils import enable_executor_hook
 
 # Assumption: there are at least k elements in the stream.
 def online_random_sample(stream: Iterator[int], k: int) -> List[int]:
-    # TODO - you fill in here.
-    return []
+    result = list(itertools.islice(stream, k))
+    index_so_far = k
+    for i in stream:
+        index_so_far += 1
+        index_to_replace = random.randrange(index_so_far)
+        if index_to_replace < k:
+            result[index_to_replace] = i
+    return result
 
 
 @enable_executor_hook
