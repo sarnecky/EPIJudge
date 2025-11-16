@@ -4,8 +4,35 @@ from test_framework import generic_test
 
 
 def binary_search_unknown_length(A: List[int], k: int) -> int:
-    # TODO - you fill in here.
-    return 0
+    # find the range where k exists [2^(i-1), 2^i - 2 ]
+    # loop to looking for a 2^i -1
+
+    p = 0
+    while True:
+        try:
+            idx = (1 << p) - 1
+            if A[idx] == k:
+                return idx
+            elif A[idx] > k:
+                break
+        except IndexError:
+            break
+        p +=1
+    print('p')
+
+    left, right = (1 << max(0, (p - 1))), (1 << p) - 2
+    while left <= right:
+        mid = left + (right - left) // 2
+        try:
+            if A[mid] == k:
+                return mid
+            elif A[mid] > k:
+                right = mid - 1
+            else:
+                left = mid + 1
+        except IndexError:
+            right = mid - 1
+    return -1
 
 
 if __name__ == '__main__':
