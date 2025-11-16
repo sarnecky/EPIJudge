@@ -1,6 +1,7 @@
 import functools
 from typing import List
 
+from queue_with_max import QueueWithMax
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
@@ -10,11 +11,23 @@ class TrafficElement:
         self.time = time
         self.volume = volume
 
+    def __lt__(self, other):
+        return self.volume < other.volume
+
+    def __eq__(self, value: object) -> bool:
+        return self.volume == value.volume and self.time == value.time
+
 
 def calculate_traffic_volumes(A: List[TrafficElement],
                               w: int) -> List[TrafficElement]:
-    # TODO - you fill in here.
-    return []
+    maximum_volumes = []
+    sliding_window = QueueWithMax()
+    for traffic_element in A:
+        sliding_window.enqueue(traffic_element)
+        while traffic_element.time - sliding_window.head().time > w:
+            sliding_window.dequeue()
+        maximum_volumes.append(TrafficElement(traffic_element.time, sliding_window.max().volume))
+    return maximum_volumes
 
 
 @enable_executor_hook
