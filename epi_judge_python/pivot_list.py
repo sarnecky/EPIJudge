@@ -8,8 +8,26 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def list_pivoting(l: ListNode, x: int) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+    less_head = less_iter = ListNode()
+    equal_head = equal_iter = ListNode()
+    greater_head = greater_iter = ListNode()
+    while l:
+        if l.data < x:
+            less_iter.next = l
+            less_iter = less_iter.next
+        if l.data == x:
+            equal_iter.next = l
+            equal_iter = equal_iter.next
+        if l.data > x:
+            greater_iter.next = l
+            greater_iter = greater_iter.next
+        l = l.next
+    
+    #combine results together
+    greater_iter.next = None
+    equal_iter.next = greater_head.next
+    less_iter.next = equal_head.next
+    return less_head.next
 
 
 def linked_to_list(l):
